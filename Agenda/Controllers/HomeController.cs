@@ -1,4 +1,5 @@
-﻿using Agenda.Model.DB.Model;
+﻿
+using AulaModelo.Modelo.DB.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

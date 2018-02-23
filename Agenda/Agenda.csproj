@@ -133,9 +133,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Agenda.Model\Agenda.Model.csproj">
-      <Project>{78cdde12-430c-430e-a7c2-a4c6edb5c14e}</Project>
-      <Name>Agenda.Model</Name>
+    <ProjectReference Include="..\AulaModelo.Modelo\AulaModelo.Modelo.csproj">
+      <Project>{522ee681-c481-4b18-b840-ae02b7761446}</Project>
+      <Name>AulaModelo.Modelo</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
