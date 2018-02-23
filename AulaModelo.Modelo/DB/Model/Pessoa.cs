@@ -12,7 +12,7 @@ namespace AulaModelo.Modelo.DB.Model
 
         public Guid Id { get; set; }
         public String Nome { get; set; }
-        public DateTime DataNasc { get; set; }
+        public DateTime DtNascimento { get; set; }
         public String Email { get; set; }
         public String Telefone { get; set; }
     }
