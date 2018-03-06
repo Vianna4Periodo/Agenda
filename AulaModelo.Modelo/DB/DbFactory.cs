@@ -1,6 +1,8 @@
-﻿using NHibernate.Cfg;
+﻿using MySql.Data.MySqlClient;
+using NHibernate.Cfg;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,12 +59,33 @@ namespace AulaModelo.Modelo.DB
                 }
                 catch
                 {
-
+                    CreateSchema(server, port, dbName, psw, user);
                 }
                 ConfigureNHibernate(stringConnection);
             }catch(Exception ex)
             {
                 throw new Exception("Cannot connect to database. Error: ", ex);
+            }
+        }
+
+        private void CreateSchema(string server, string port, string dbName, string psw, string user)
+        {
+            try
+            {
+                var stringConnection = "server =" + server +
+                                       ";user=" + user +
+                                       ";port=" + port +
+                                       ";pwd=" + psw + ";";
+                var mysql = new MySqlConnection(stringConnection);
+                var cmd = mysql.CreateCommand();
+                mysql.Open();
+                cmd.CommandText = "CREATE DATABASE IF NOT EXISTS `" + dbName + "`;";
+                cmd.ExecuteNonQuery();
+                mysql.Close();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Cannot create database Schema. Error: ", ex);
             }
         }
 
