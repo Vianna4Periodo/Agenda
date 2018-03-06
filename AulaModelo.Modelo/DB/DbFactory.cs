@@ -1,21 +1,29 @@
-﻿using MySql.Data.MySqlClient;
+﻿using AulaModelo.Modelo.DB.Model;
+using MySql.Data.MySqlClient;
+using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Cfg.MappingSchema;
+using NHibernate.Context;
+using NHibernate.Mapping.ByCode;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AulaModelo.Modelo.DB
 {
     public class DbFactory
     {
         private static DbFactory _instance = null;
+        private ISessionFactory _sessionFactory;
 
         private DbFactory()
         {
-            
+            Connection();
         }
 
         public static DbFactory Instance
@@ -39,7 +47,7 @@ namespace AulaModelo.Modelo.DB
                 var port = "3306";
                 var dbName = "db_agenda";
                 var user = "root";
-                var psw = "aluno";
+                var psw = "root";
                 var stringConnection = "Persist Security Info=False;" +
                                        "server =" + server +
                                        ";port=" + port +
@@ -114,10 +122,48 @@ namespace AulaModelo.Modelo.DB
                     //cria schema do banco de dados sempre que a configuration for utilizada
                     i.SchemaAction = SchemaAutoAction.Update;
                 });
+
+                //Realiza o mapeamento das classes
+                var maps = this.Mapping();
+                config.AddMapping(maps);
+
+                //Verifica se a aplicação é Desktop ou web
+                if(HttpContext.Current == null)
+                {
+                    config.CurrentSessionContext<ThreadStaticSessionContext>();
+                }
+                else
+                {
+                    config.CurrentSessionContext<WebSessionContext>();
+                }
+
+                this._sessionFactory = config.BuildSessionFactory();
             }
             catch(Exception ex)
             {
                 throw new Exception("Cannot configure NHibernate. Error: ", ex);
+            }
+        }
+
+        private HbmMapping Mapping()
+        {
+            try
+            {
+                var mapper = new ModelMapper();
+
+                //mapper.AddMapping(PessoaMap);
+
+                //este método é suficiente para mapear TODAS as classes de mapeamento, pois o método getAssembly 
+                //retorna todos as classes herdadas de ClassMapping, basta colocar uma classe qualquer como parametro
+                //do método typeof()
+                mapper.AddMappings(
+                    Assembly.GetAssembly(typeof(PessoaMap)).GetTypes()
+                );
+                return mapper.CompileMappingForAllExplicitlyAddedEntities();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception();
             }
         }
     }

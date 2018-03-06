@@ -1,4 +1,5 @@
 ﻿
+using AulaModelo.Modelo.DB;
 using AulaModelo.Modelo.DB.Model;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Agenda.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            var x = DbFactory.Instance;
             var p1 = new Pessoa()
             {
                 Nome="Tadeu",
