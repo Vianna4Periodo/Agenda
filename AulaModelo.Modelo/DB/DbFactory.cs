@@ -33,7 +33,32 @@ namespace AulaModelo.Modelo.DB
         {
             try
             {
-                var stringConnection = "";
+                var server = "localhost";
+                var port = "3306";
+                var dbName = "db_agenda";
+                var user = "root";
+                var psw = "aluno";
+                var stringConnection = "Persist Security Info=False;" +
+                                       "server =" + server +
+                                       ";port=" + port +
+                                       ";database=" + dbName +
+                                       ";uid=" + user +
+                                       ";pwd=" + psw;
+
+                try
+                {
+                    var mysql = new MySqlConnection(stringConnection);
+                    mysql.Open();
+
+                    if(mysql.State == ConnectionState.Open)
+                    {
+                        mysql.Close();
+                    }
+                }
+                catch
+                {
+
+                }
                 ConfigureNHibernate(stringConnection);
             }catch(Exception ex)
             {
