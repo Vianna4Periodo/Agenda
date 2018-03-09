@@ -166,5 +166,28 @@ namespace AulaModelo.Modelo.DB
                 throw new Exception();
             }
         }
+
+        public ISession Session
+        {
+            get
+            {
+                try
+                {
+                    if (CurrentSessionContext.HasBind(_sessionFactory))
+                        return _sessionFactory.GetCurrentSession();
+
+                    var session = _sessionFactory.OpenSession();
+                    session.FlushMode = FlushMode.Commit;
+
+                    CurrentSessionContext.Bind(session);
+
+                    return session;
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception("Cannot create session.", ex);
+                }
+            }
+        }
     }
 }
