@@ -1,4 +1,5 @@
 ﻿using AulaModelo.Modelo.DB.Model;
+using AulaModelo.Modelo.DB.Repository;
 using MySql.Data.MySqlClient;
 using NHibernate;
 using NHibernate.Cfg;
@@ -20,10 +21,12 @@ namespace AulaModelo.Modelo.DB
     {
         private static DbFactory _instance = null;
         private ISessionFactory _sessionFactory;
-
+        public RepositoryPessoa RepositoryPessoa { get; set; }
         private DbFactory()
         {
             Connection();
+
+            RepositoryPessoa = new RepositoryPessoa(Session);
         }
 
         public static DbFactory Instance

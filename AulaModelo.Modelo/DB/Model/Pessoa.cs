@@ -10,7 +10,6 @@ namespace AulaModelo.Modelo.DB.Model
 {
     public class Pessoa
     {
-        public static List<Pessoa> Pessoas = new List<Pessoa>();
 
         public virtual Guid Id { get; set; }
         public virtual String Nome { get; set; }

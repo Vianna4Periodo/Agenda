@@ -33,7 +33,7 @@ namespace AulaModelo.Modelo.DB.Repository
             }
         }
 
-        public T Save(T entity)
+        public T SaveOrUpdate(T entity)
         {
             try
             {

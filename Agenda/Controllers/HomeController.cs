@@ -14,36 +14,8 @@ namespace Agenda.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            var x = DbFactory.Instance;
-            var p1 = new Pessoa()
-            {
-                Nome="Tadeu",
-                Telefone ="32 32323232",
-                Email = "email@oi.com.br",
-                DtNascimento = DateTime.Now,
-                Id = Guid.NewGuid()
-            };
-            var p2 = new Pessoa()
-            {
-                Nome = "B",
-                Telefone = "32 32323232",
-                Email = "email@oi.com.br",
-                DtNascimento = DateTime.Now,
-                Id = Guid.NewGuid()
-            };
-            var p3 = new Pessoa()
-            {
-                Nome = "C",
-                Telefone = "32 32323232",
-                Email = "email@oi.com.br",
-                DtNascimento = DateTime.Now,
-                Id = Guid.NewGuid()
-            };
-
-            Pessoa.Pessoas.Add(p1);
-            Pessoa.Pessoas.Add(p2);
-            Pessoa.Pessoas.Add(p3);
-            return View(Pessoa.Pessoas);
+            var pessoas = DbFactory.Instance.RepositoryPessoa.FindAll();
+            return View(pessoas);
         }
 
         public ActionResult Create()
@@ -53,16 +25,15 @@ namespace Agenda.Controllers
 
         public ActionResult PersistPearson(Pessoa p)
         {
-            Pessoa.Pessoas.Add(p);
+            DbFactory.Instance.RepositoryPessoa.SaveOrUpdate(p);
             return RedirectToAction("Index");
         }
 
         public ActionResult Search(String edtSearch)
-        {
-            var pessoaAux = new List<Pessoa>();
+        {           
             if (String.IsNullOrEmpty(edtSearch))
             {
-                return View("Index", Pessoa.Pessoas);
+                return View("Index");
             }
             //1 - Filtro com FOR
             //for(var i=0; i<Pessoa.Pessoas.Count; i++)
@@ -90,11 +61,31 @@ namespace Agenda.Controllers
             //    ).ToList();
 
             //4 - Filtro com LAMBDA
-            pessoaAux = Pessoa.Pessoas.Where(pessoa =>  
-                                pessoa.Nome.Contains(edtSearch.Trim())
-                            ).ToList();
+            var pessoas = DbFactory.Instance.RepositoryPessoa.GetAllByName(edtSearch);
 
-            return View("Index", pessoaAux);
+            return View("Index", pessoas);
+        }
+
+        public ActionResult Delete(Guid id)
+        {
+            var p = DbFactory.Instance.RepositoryPessoa.FindById(id);
+
+            if(p != null)
+            {
+                DbFactory.Instance.RepositoryPessoa.Delete(p);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult UpdatePearson(Guid id)
+        {
+            var p = DbFactory.Instance.RepositoryPessoa.FindById(id);
+
+            if (p != null)
+            {
+                return View(p);
+            }
+            return RedirectToAction("Index");
         }
     }
 }
