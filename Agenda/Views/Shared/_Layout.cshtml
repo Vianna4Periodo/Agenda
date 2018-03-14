@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using AulaModelo.Modelo.Utils
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,6 +22,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @if (LoginUtils.Usuario == null)
+                    {
+                        @Html.Partial("_MenuDefault")
+                    }
+                    else
+                    {
+
+                    }
                 </ul>
             </div>
         </div>
