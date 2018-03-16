@@ -1,4 +1,5 @@
-﻿using AulaModelo.Modelo.DB.Model;
+﻿using AulaModelo.Modelo.DB;
+using AulaModelo.Modelo.DB.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace AulaModelo.Modelo.Utils
 
         public static void Logar(string usuario, string senha)
         {
+            // DbFactory.Instance.RepositoryUsuario.
+
             if ((usuario == "admin") && (senha == "123456"))
             {
                 HttpContext.Current.Session["Usuario"] = new Usuario();

@@ -1,4 +1,6 @@
-﻿using AulaModelo.Modelo.Utils;
+﻿using AulaModelo.Modelo.DB;
+using AulaModelo.Modelo.DB.Model;
+using AulaModelo.Modelo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace Agenda.Controllers
 
         public ActionResult EntrarUsuario()
         {
-            return View();
+            return View(new Usuario());
         }
 
         public ActionResult Logar(string usuario, string senha)
@@ -32,5 +34,18 @@ namespace Agenda.Controllers
                 return RedirectToAction("EntrarUsuario");
             }
         }
+
+        public ActionResult DeslogarUsuario()
+        {
+            LoginUtils.Deslogar();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult GravarUsuario(Usuario usuario)
+        {
+            DbFactory.Instance.RepositoryUsuario.SaveOrUpdate(usuario);
+            return RedirectToAction("EntrarUsuario");
+        }
+
     }
 }

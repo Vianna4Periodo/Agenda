@@ -1,6 +1,7 @@
 ﻿
 using AulaModelo.Modelo.DB;
 using AulaModelo.Modelo.DB.Model;
+using AulaModelo.Modelo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,15 @@ namespace Agenda.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            var pessoas = DbFactory.Instance.RepositoryPessoa.FindAll();
-            return View(pessoas);
+            if (LoginUtils.Usuario != null)
+            {
+                var pessoas = DbFactory.Instance.RepositoryPessoa.FindAll();
+                return View(pessoas);
+            }
+            else {
+                return RedirectToAction("EntrarUsuario", "Usuario");
+            }
+            
         }
 
         public ActionResult Create()

@@ -21,12 +21,16 @@ namespace AulaModelo.Modelo.DB
     {
         private static DbFactory _instance = null;
         private ISessionFactory _sessionFactory;
+
         public RepositoryPessoa RepositoryPessoa { get; set; }
+        public UsuarioRepository RepositoryUsuario { get; set; }
+
         private DbFactory()
         {
             Connection();
 
             RepositoryPessoa = new RepositoryPessoa(Session);
+            RepositoryUsuario = new UsuarioRepository(Session);
         }
 
         public static DbFactory Instance
