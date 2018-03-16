@@ -24,13 +24,16 @@ namespace AulaModelo.Modelo.Utils
             }
         }
 
-        public static void Logar(string usuario, string senha)
+        public static void Logar(string login, string senha)
         {
-            // DbFactory.Instance.RepositoryUsuario.
-
-            if ((usuario == "admin") && (senha == "123456"))
+            try
             {
-                HttpContext.Current.Session["Usuario"] = new Usuario();
+                Usuario usuario = DbFactory.Instance.RepositoryUsuario.Login(login, senha);
+                HttpContext.Current.Session["Usuario"] = usuario;
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
