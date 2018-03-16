@@ -1,3 +1,7 @@
-﻿<li>
+﻿@using AulaModelo.Modelo.Utils
+<li>
+    @LoginUtils.Usuario.Login
+</li>
+<li>
     @Html.ActionLink("Sair", "DeslogarUsuario", "usuario");
 </li>
